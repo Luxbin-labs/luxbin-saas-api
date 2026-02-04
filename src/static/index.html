@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXBIN API - Quantum-Enhanced Developer Tools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1a2e 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        /* Header */
+        header {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .spectrum-bar {
+            height: 8px;
+            width: 200px;
+            background: linear-gradient(90deg,
+                #8b00ff 0%, #0000ff 17%, #00ffff 33%,
+                #00ff00 50%, #ffff00 67%, #ff8000 83%, #ff0000 100%);
+            border-radius: 4px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, #00d4aa, #7c3aed, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 40px 0;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #7c3aed;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #00d4aa;
+        }
+
+        .feature-card p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 60px 0;
+        }
+
+        .pricing h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .price-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .price-card.featured {
+            border-color: #7c3aed;
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .price-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #00d4aa;
+            margin: 20px 0;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: #888;
+        }
+
+        .price-features {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .price-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #ccc;
+        }
+
+        .price-features li::before {
+            content: "✓ ";
+            color: #00d4aa;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #00d4aa);
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #7c3aed;
+            color: #7c3aed;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+        }
+
+        /* Code Example */
+        .code-section {
+            padding: 60px 0;
+        }
+
+        .code-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .code-block {
+            background: #0d1117;
+            border-radius: 12px;
+            padding: 30px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .code-block .comment { color: #6a9955; }
+        .code-block .keyword { color: #569cd6; }
+        .code-block .string { color: #ce9178; }
+        .code-block .function { color: #dcdcaa; }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #7c3aed;
+            text-decoration: none;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #00d4aa;
+        }
+
+        .stat-label {
+            color: #888;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="spectrum-bar"></div>
+            </div>
+            <h1>LUXBIN API</h1>
+            <p class="tagline">Quantum-Enhanced Developer Tools for Web3</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">445</div>
+                    <div class="stat-label">Qubits Online</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">14</div>
+                    <div class="stat-label">Languages</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">0.1s</div>
+                    <div class="stat-label">Avg Response</div>
+                </div>
+            </div>
+        </header>
+
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Code Translation</h3>
+                <p>AI-powered translation between 14 programming languages. Python to Rust, Solidity to JavaScript, and more.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌈</div>
+                <h3>Light Encoding</h3>
+                <p>Encode any data as LUXBIN Light Language - visible spectrum wavelengths (400-700nm) for universal communication.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎲</div>
+                <h3>Quantum RNG</h3>
+                <p>True random numbers from IBM Quantum computers. Physically impossible to predict - perfect for crypto.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⛓️</div>
+                <h3>Web3 Native</h3>
+                <p>Built for crypto developers. Solidity support, NFT metadata encoding, on-chain verification ready.</p>
+            </div>
+        </section>
+
+        <section class="code-section">
+            <h2>Quick Start</h2>
+            <div class="code-block">
+<span class="comment"># Translate Python to Solidity</span>
+curl -X POST https://api.luxbin.dev/v1/translate \
+  -H <span class="string">"X-API-Key: YOUR_KEY"</span> \
+  -H <span class="string">"Content-Type: application/json"</span> \
+  -d <span class="string">'{
+    "code": "def transfer(to, amount): balances[to] += amount",
+    "source_language": "python",
+    "target_language": "solidity"
+  }'</span>
+
+<span class="comment"># Get quantum random numbers</span>
+curl -X POST https://api.luxbin.dev/v1/quantum/random \
+  -H <span class="string">"X-API-Key: YOUR_KEY"</span> \
+  -d <span class="string">'{"count": 10, "min_value": 0, "max_value": 255}'</span>
+
+<span class="comment"># Encode to Light Language</span>
+curl -X POST https://api.luxbin.dev/v1/encode \
+  -H <span class="string">"X-API-Key: YOUR_KEY"</span> \
+  -d <span class="string">'{"text": "HELLO WORLD"}'</span>
+            </div>
+        </section>
+
+        <section class="pricing">
+            <h2>Pricing</h2>
+            <div class="pricing-cards">
+                <div class="price-card">
+                    <h3>Free</h3>
+                    <div class="price">$0<span>/month</span></div>
+                    <ul class="price-features">
+                        <li>100 requests/day</li>
+                        <li>Code translation (all languages)</li>
+                        <li>Light encoding/decoding</li>
+                        <li>Simulated quantum RNG</li>
+                        <li>Community support</li>
+                    </ul>
+                    <a href="/api/v1/keys/generate?tier=free" class="btn btn-secondary">Get Free Key</a>
+                </div>
+                <div class="price-card featured">
+                    <h3>Pro</h3>
+                    <div class="price">$29<span>/month</span></div>
+                    <ul class="price-features">
+                        <li>10,000 requests/day</li>
+                        <li>Everything in Free</li>
+                        <li><strong>Real IBM Quantum RNG</strong></li>
+                        <li>Priority queue</li>
+                        <li>Email support</li>
+                        <li>Webhook notifications</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Start Pro Trial</a>
+                </div>
+                <div class="price-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">$299<span>/month</span></div>
+                    <ul class="price-features">
+                        <li>Unlimited requests</li>
+                        <li>Everything in Pro</li>
+                        <li>Dedicated quantum backend</li>
+                        <li>Custom integrations</li>
+                        <li>SLA guarantee</li>
+                        <li>24/7 support</li>
+                    </ul>
+                    <a href="mailto:enterprise@luxbin.dev" class="btn btn-secondary">Contact Sales</a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Built with 💜 by <a href="https://github.com/nichechristie">Nichole Christie</a></p>
+            <p style="margin-top: 10px; color: #666;">
+                <a href="/docs">API Docs</a> ·
+                <a href="https://github.com/nichechristie/luxbin-quantum-grid">GitHub</a> ·
+                <a href="mailto:support@luxbin.dev">Support</a>
+            </p>
+            <p style="margin-top: 20px; color: #444;">ENS: luxbin.base.eth</p>
+        </footer>
+    </div>
+</body>
+</html>
